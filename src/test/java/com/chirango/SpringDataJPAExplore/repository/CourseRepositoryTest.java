@@ -1,6 +1,7 @@
 package com.chirango.SpringDataJPAExplore.repository;
 
 import com.chirango.SpringDataJPAExplore.entity.Course;
+import com.chirango.SpringDataJPAExplore.entity.Student;
 import com.chirango.SpringDataJPAExplore.entity.Teacher;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,5 +78,30 @@ class CourseRepositoryTest {
 
         List<Course> courses = courseRepository.findByTitleContaining("M", firstPageWithTenRecords).getContent();
         System.out.println(courses);
+    }
+
+    @Test
+    public void saveCourseWithStudentAndTeacher() {
+        Teacher teacher = Teacher.builder()
+                .firstName("Andy")
+                .lastName("Morgan")
+                .build();
+
+        Student student = Student.builder()
+                .firstName("John")
+                .lastName("Phillips")
+                .emailId("john@gmail.com")
+                .build();
+
+        Course course = Course.builder()
+                .title("Kubernetes")
+                .credit(5)
+                .teacher(teacher)
+                .build();
+
+        course.addStudents(student);
+
+        courseRepository.save(course);
+
     }
 }
